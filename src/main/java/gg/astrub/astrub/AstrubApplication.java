@@ -1,6 +1,7 @@
 package gg.astrub.astrub;
 
 import gg.astrub.astrub.entities.Listing;
+import gg.astrub.astrub.entities.ListingCurrency;
 import gg.astrub.astrub.entities.User;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
@@ -35,6 +36,7 @@ public class AstrubApplication {
 			});
 
 			Stream.of("Vente Kamas", "Vente Compte Cra 200", "Vente 300 Million Ilyzaelle").forEach(list -> {
+				ListingCurrency listingCurrency = new ListingCurrency(1000000L);
 				Listing listing = Listing.builder()
 						.listingTitle(list)
 						.listingDescription("Description : " + list)
@@ -42,6 +44,7 @@ public class AstrubApplication {
 						.listingPublishDate(new Date())
 						.listingGameServer("Ilyzaelle")
 						.listingCharacterName("XxDarkxX")
+						.listingCurrency(listingCurrency)
 						.build();
 
 				listingRepository.save(listing);
