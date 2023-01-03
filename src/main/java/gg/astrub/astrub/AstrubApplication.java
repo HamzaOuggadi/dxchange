@@ -1,12 +1,18 @@
 package gg.astrub.astrub;
 
 
+import gg.astrub.astrub.entities.Listing;
+import gg.astrub.astrub.entities.ListingCurrency;
+import gg.astrub.astrub.entities.User;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Date;
+import java.util.stream.Stream;
 
 
 @SpringBootApplication
@@ -19,7 +25,36 @@ public class AstrubApplication {
 	CommandLineRunner start(UserRepository userRepository,
 							ListingRepository listingRepository) {
 		return args -> {
+			Stream.of("Hamza", "Yasmine", "Jessie").forEach(usr -> {
+				User user = User.builder()
+						.userName(usr)
+						.userEmail(usr + "@gmail.com")
+						.userPassword("1234")
+						.userCreatedAt(new Date())
+						.userBanned(false)
+						.build();
+				userRepository.save(user);
+			});
 
+			Stream.of("Vente 100M de Kamas", "Vend Compte Cra LVL 200", "Vends 200M Kamas sur Ilyzaelle").forEach(lst -> {
+				ListingCurrency listingCurrency = ListingCurrency.builder()
+						.listingTitle(lst)
+						.listingDescription("Description : " + lst)
+						.listingPrice(Math.random()*1000)
+						.listingPublishDate(new Date())
+						.listingGameServer("Ilyzaelle")
+						.listingCharacterName("XxDarkxX")
+						.currencyAmount(1000000L)
+						.build();
+				listingRepository.save(listingCurrency);
+			});
+
+			for (int i=1; i<=3; i++) {
+				User user = userRepository.findById(Long.valueOf(i)).orElseThrow();
+				Listing listing = listingRepository.findById(Long.valueOf(i)).orElseThrow();
+				listing.setUser(user);
+				listingRepository.save(listing);
+			}
 		};
 	}
 

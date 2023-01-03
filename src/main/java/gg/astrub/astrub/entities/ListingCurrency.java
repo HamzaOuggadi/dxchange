@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@DiscriminatorValue("CURRENCY_PRODUCT")
+@DiscriminatorValue("CURRENCY")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

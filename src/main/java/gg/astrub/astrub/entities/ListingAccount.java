@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@DiscriminatorValue("ACCOUNT_PRODUCT")
+@DiscriminatorValue("ACCOUNT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
