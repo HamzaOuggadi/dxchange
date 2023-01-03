@@ -22,10 +22,10 @@ public class Listing {
     private Date listingPublishDate;
     private String listingGameServer;
     private String listingCharacterName;
-    @Transient
-    private ListingCurrency listingCurrency;
-    @Transient
-    private ListingAccount listingAccount;
     @ManyToOne
     private User user;
+    @OneToOne(mappedBy = "listing")
+    private ListingProductCurrency listingProductCurrency;
+    @OneToOne(mappedBy = "listing")
+    private ListingProductAccount listingProductAccount;
 }
