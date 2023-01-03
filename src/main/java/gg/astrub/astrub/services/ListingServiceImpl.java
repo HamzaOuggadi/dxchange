@@ -32,38 +32,62 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public ListingCurrency addListingCurrency(ListingCurrency listingCurrency) {
-        ListingCurrency newListingCurrency = new ListingCurrency();
-        newListingCurrency.setListingTitle(listingCurrency.getListingTitle());
-        newListingCurrency.setListingDescription(listingCurrency.getListingDescription());
-        newListingCurrency.setListingPrice(listingCurrency.getListingPrice());
-        newListingCurrency.setListingPublishDate(listingCurrency.getListingPublishDate());
-        newListingCurrency.setListingGameServer(listingCurrency.getListingGameServer());
-        newListingCurrency.setListingCharacterName(listingCurrency.getListingCharacterName());
-        newListingCurrency.setCurrencyAmount(listingCurrency.getCurrencyAmount());
+        ListingCurrency newListingCurrency = ListingCurrency.builder()
+                .listingTitle(listingCurrency.getListingTitle())
+                .listingDescription(listingCurrency.getListingDescription())
+                .listingPrice(listingCurrency.getListingPrice())
+                .listingPublishDate(listingCurrency.getListingPublishDate())
+                .listingGameServer(listingCurrency.getListingGameServer())
+                .listingCharacterName(listingCurrency.getListingCharacterName())
+                .currencyAmount(listingCurrency.getCurrencyAmount())
+                .build();
+//        ListingCurrency newListingCurrency = new ListingCurrency();
+//        newListingCurrency.setListingTitle(listingCurrency.getListingTitle());
+//        newListingCurrency.setListingDescription(listingCurrency.getListingDescription());
+//        newListingCurrency.setListingPrice(listingCurrency.getListingPrice());
+//        newListingCurrency.setListingPublishDate(listingCurrency.getListingPublishDate());
+//        newListingCurrency.setListingGameServer(listingCurrency.getListingGameServer());
+//        newListingCurrency.setListingCharacterName(listingCurrency.getListingCharacterName());
+//        newListingCurrency.setCurrencyAmount(listingCurrency.getCurrencyAmount());
+
         listingRepository.save(newListingCurrency);
         return newListingCurrency;
     }
 
     @Override
     public ListingAccount addListingAccount(ListingAccount listingAccount) {
-        ListingAccount newListingAccount = new ListingAccount();
-        newListingAccount.setListingTitle(listingAccount.getListingTitle());
-        newListingAccount.setListingDescription(listingAccount.getListingDescription());
-        newListingAccount.setListingPrice(listingAccount.getListingPrice());
-        newListingAccount.setListingPublishDate(listingAccount.getListingPublishDate());
-        newListingAccount.setListingGameServer(listingAccount.getListingGameServer());
-        newListingAccount.setListingCharacterName(listingAccount.getListingCharacterName());
-        newListingAccount.setCharacterClass(listingAccount.getCharacterClass());
-        newListingAccount.setCharacterLevel(listingAccount.getCharacterLevel());
-        newListingAccount.setCharacterProfession(listingAccount.getCharacterProfession());
-        newListingAccount.setCharacterProfessionLevel(listingAccount.getCharacterProfessionLevel());
-        newListingAccount.setCharacterCurrencyAmount(listingAccount.getCharacterCurrencyAmount());
+        ListingAccount newListingAccount = ListingAccount.builder()
+                .listingTitle(listingAccount.getListingTitle())
+                .listingDescription(listingAccount.getListingDescription())
+                .listingPrice(listingAccount.getListingPrice())
+                .listingPublishDate(listingAccount.getListingPublishDate())
+                .listingGameServer(listingAccount.getListingGameServer())
+                .listingCharacterName(listingAccount.getListingCharacterName())
+                .characterClass(listingAccount.getCharacterClass())
+                .characterLevel(listingAccount.getCharacterLevel())
+                .characterProfession(listingAccount.getCharacterProfession())
+                .characterProfessionLevel(listingAccount.getCharacterProfessionLevel())
+                .characterCurrencyAmount(listingAccount.getCharacterCurrencyAmount())
+                .build();
+//        ListingAccount newListingAccount = new ListingAccount();
+//        newListingAccount.setListingTitle(listingAccount.getListingTitle());
+//        newListingAccount.setListingDescription(listingAccount.getListingDescription());
+//        newListingAccount.setListingPrice(listingAccount.getListingPrice());
+//        newListingAccount.setListingPublishDate(listingAccount.getListingPublishDate());
+//        newListingAccount.setListingGameServer(listingAccount.getListingGameServer());
+//        newListingAccount.setListingCharacterName(listingAccount.getListingCharacterName());
+//        newListingAccount.setCharacterClass(listingAccount.getCharacterClass());
+//        newListingAccount.setCharacterLevel(listingAccount.getCharacterLevel());
+//        newListingAccount.setCharacterProfession(listingAccount.getCharacterProfession());
+//        newListingAccount.setCharacterProfessionLevel(listingAccount.getCharacterProfessionLevel());
+//        newListingAccount.setCharacterCurrencyAmount(listingAccount.getCharacterCurrencyAmount());
         listingRepository.save(newListingAccount);
         return newListingAccount;
     }
 
     @Override
     public Listing editListing(Listing listing) {
+
         return null;
     }
 

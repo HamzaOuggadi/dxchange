@@ -44,7 +44,7 @@ public class AstrubApplication {
 						.listingPublishDate(new Date())
 						.listingGameServer("Ilyzaelle")
 						.listingCharacterName("XxDarkxX")
-						.currencyAmount(1000000L)
+						.currencyAmount(Long.valueOf((long) (1000000+(Math.random()*100000000))))
 						.build();
 				listingRepository.save(listingCurrency);
 			});
