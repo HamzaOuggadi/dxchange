@@ -2,19 +2,20 @@ package gg.astrub.astrub.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
 @Entity
-
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "PRODUCT_TYPE", length = 20)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Listing {
+@SuperBuilder
+public abstract class Listing {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listingId;
     private String listingTitle;
@@ -25,8 +26,4 @@ public class Listing {
     private String listingCharacterName;
     @ManyToOne
     private User user;
-    @OneToOne(mappedBy = "listing")
-    private ListingProductCurrency listingProductCurrency;
-    @OneToOne(mappedBy = "listing")
-    private ListingProductAccount listingProductAccount;
 }

@@ -24,6 +24,6 @@ public class User {
     private Date userCreatedAt;
     private boolean userBanned;
     @OneToMany(mappedBy = "user")
-    private List<Listing> listing;
+    private List<Listing> listings;
 
 }
