@@ -30,6 +30,16 @@ public class AstrubApplication {
 							ListingServiceImpl listingService,
 							UserServiceImpl userService) {
 		return args -> {
+			User testUser = User.builder()
+					.userName("TestUser")
+					.userEmail("Testuser@gmail.com")
+					.userPassword("1234")
+					.userCreatedAt(new Date())
+					.userBanned(false)
+					.build();
+			userService.addUser(testUser);
+
+
 			Stream.of("Hamza", "Yasmine", "Jessie").forEach(usr -> {
 				User user = User.builder()
 						.userName(usr)
@@ -83,6 +93,14 @@ public class AstrubApplication {
 				listing2.setUser(user);
 				listingRepository.save(listing2);
 			}
+
+			User user2 = userService.getUserById(3L);
+
+			System.out.println("User2 : " + user2.getUserName() + " " + user2.getUserEmail() + " " + user2.getUserCreatedAt());
+
+			Listing listing = listingService.getListingById(4L);
+
+			System.out.println("Listing 4 : " + listing.getListingTitle() + " " + listing.getListingDescription());
 		};
 	}
 
