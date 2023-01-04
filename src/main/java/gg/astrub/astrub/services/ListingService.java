@@ -12,6 +12,7 @@ public interface ListingService {
     Listing getListingById(Long listingId) throws ListingException;
     ListingCurrency addListingCurrency(ListingCurrency listingCurrency);
     ListingAccount addListingAccount(ListingAccount listingAccount);
-    Listing editListing(Listing listing);
+    ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException;
+    ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException;
     void deleteListingById(Long listingId);
 }

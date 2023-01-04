@@ -50,13 +50,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User editUser(User user) throws UserException {
-        User editedUser = userRepository.findById(user.getUserId()).orElseThrow(()-> new UserException("User Not Found!"));
-        editedUser.setUserName(user.getUserName());
-        editedUser.setUserEmail(user.getUserEmail());
-        editedUser.setUserPassword(user.getUserPassword());
-        editedUser.setUserBanned(user.isUserBanned());
-        userRepository.save(editedUser);
-        return editedUser;
+        if (userRepository.findById(user.getUserId()) == null) {
+            throw new UserException("User With ID " + user.getUserId().toString() + " Doesn't Exist!");
+        } else {
+            return userRepository.save(user);
+        }
+//        User editedUser = userRepository.findById(user.getUserId()).orElseThrow(()-> new UserException("User Not Found!"));
+//        editedUser.setUserName(user.getUserName());
+//        editedUser.setUserEmail(user.getUserEmail());
+//        editedUser.setUserPassword(user.getUserPassword());
+//        editedUser.setUserBanned(user.isUserBanned());
+//        userRepository.save(editedUser);
     }
 
     @Override

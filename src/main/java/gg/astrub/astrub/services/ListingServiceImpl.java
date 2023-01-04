@@ -86,9 +86,21 @@ public class ListingServiceImpl implements ListingService{
     }
 
     @Override
-    public Listing editListing(Listing listing) {
+    public ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException {
+        if (listingRepository.findById(listingCurrency.getListingId()) == null) {
+            throw new ListingException("This Listing Doesn't Exist !");
+        } else {
+            return listingRepository.save(listingCurrency);
+        }
+    }
 
-        return null;
+    @Override
+    public ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException {
+        if (listingRepository.findById(listingAccount.getListingId()) == null) {
+            throw new ListingException("This Listing Doesn't Exist!");
+        } else {
+            return listingRepository.save(listingAccount);
+        }
     }
 
     @Override
