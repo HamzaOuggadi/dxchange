@@ -19,6 +19,7 @@ public class Message {
     private String messageContent;
     private Date messageDate;
     private boolean messageViewed;
+    private boolean messageDeleted;
     @ManyToOne
     private User userRecipient;
     @ManyToOne
