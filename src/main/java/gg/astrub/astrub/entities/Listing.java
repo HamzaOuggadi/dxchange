@@ -1,5 +1,7 @@
 package gg.astrub.astrub.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +28,7 @@ public abstract class Listing {
     private Date listingPublishDate;
     private String listingGameServer;
     private String listingCharacterName;
-    @ManyToOne
+    @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
     @OneToMany(mappedBy = "listing")
     private List<Message> messages;

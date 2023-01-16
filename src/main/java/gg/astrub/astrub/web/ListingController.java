@@ -4,6 +4,7 @@ import gg.astrub.astrub.entities.Listing;
 import gg.astrub.astrub.entities.ListingAccount;
 import gg.astrub.astrub.entities.ListingCurrency;
 import gg.astrub.astrub.exceptions.ListingException;
+import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.services.ListingServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +32,15 @@ public class ListingController {
     public Listing getListingById(@PathVariable Long listingId) throws ListingException {
         return listingService.getListingById(listingId);
     }
-    @PostMapping("/listings/addAccountListing")
-    public ListingAccount addAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {
-        return listingService.addListingAccount(listingAccount);
+    @PostMapping("/listings/addAccountListing/{userId}")
+    public ListingAccount addAccountListing(@RequestBody ListingAccount listingAccount,
+                                            @PathVariable Long userId) throws ListingException, UserException {
+        return listingService.addListingAccount(listingAccount, userId);
     }
-    @PostMapping("/listings/addCurrencyListing")
-    public ListingCurrency addCurrencyListing(@RequestBody ListingCurrency listingCurrency) throws ListingException {
-        return listingService.addListingCurrency(listingCurrency);
+    @PostMapping("/listings/addCurrencyListing/{userId}")
+    public ListingCurrency addCurrencyListing(@RequestBody ListingCurrency listingCurrency,
+                                              @PathVariable Long userId) throws ListingException, UserException {
+        return listingService.addListingCurrency(listingCurrency, userId);
     }
     @PutMapping("/listings/editAccountListing")
     public ListingAccount editAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {

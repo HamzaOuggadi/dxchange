@@ -3,14 +3,18 @@ package gg.astrub.astrub.services;
 import gg.astrub.astrub.entities.Listing;
 import gg.astrub.astrub.entities.ListingAccount;
 import gg.astrub.astrub.entities.ListingCurrency;
+import gg.astrub.astrub.entities.User;
 import gg.astrub.astrub.exceptions.ListingException;
+import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.repositories.ListingAccountRepository;
 import gg.astrub.astrub.repositories.ListingCurrencyRepository;
 import gg.astrub.astrub.repositories.ListingRepository;
+import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 @Service
 @Transactional
@@ -19,6 +23,7 @@ public class ListingServiceImpl implements ListingService{
     private ListingRepository listingRepository;
     private ListingAccountRepository listingAccountRepository;
     private ListingCurrencyRepository listingCurrencyRepository;
+    private UserRepository userRepository;
 
     @Override
     public List<Listing> listAllListing() throws ListingException {
@@ -53,24 +58,20 @@ public class ListingServiceImpl implements ListingService{
     }
 
     @Override
-    public ListingCurrency addListingCurrency(ListingCurrency listingCurrency) throws ListingException {
-        if (listingRepository.findById(listingCurrency.getListingId()).isEmpty()) {
+    public ListingCurrency addListingCurrency(ListingCurrency listingCurrency, Long userId) throws ListingException, UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
             ListingCurrency newListingCurrency = ListingCurrency.builder()
                     .listingTitle(listingCurrency.getListingTitle())
                     .listingDescription(listingCurrency.getListingDescription())
                     .listingPrice(listingCurrency.getListingPrice())
-                    .listingPublishDate(listingCurrency.getListingPublishDate())
+                    .listingPublishDate(new Date())
                     .listingGameServer(listingCurrency.getListingGameServer())
                     .listingCharacterName(listingCurrency.getListingCharacterName())
+                    .user(user)
                     .currencyAmount(listingCurrency.getCurrencyAmount())
                     .build();
-
             listingRepository.save(newListingCurrency);
             return newListingCurrency;
-        } else {
-
-            throw new ListingException("Listing Already Exists!");
-        }
 //        ListingCurrency newListingCurrency = new ListingCurrency();
 //        newListingCurrency.setListingTitle(listingCurrency.getListingTitle());
 //        newListingCurrency.setListingDescription(listingCurrency.getListingDescription());
@@ -82,27 +83,25 @@ public class ListingServiceImpl implements ListingService{
     }
 
     @Override
-    public ListingAccount addListingAccount(ListingAccount listingAccount) throws ListingException {
-        if (listingRepository.findById(listingAccount.getListingId()).isEmpty()) {
-            ListingAccount newListingAccount = ListingAccount.builder()
-                    .listingTitle(listingAccount.getListingTitle())
-                    .listingDescription(listingAccount.getListingDescription())
-                    .listingPrice(listingAccount.getListingPrice())
-                    .listingPublishDate(listingAccount.getListingPublishDate())
-                    .listingGameServer(listingAccount.getListingGameServer())
-                    .listingCharacterName(listingAccount.getListingCharacterName())
-                    .characterClass(listingAccount.getCharacterClass())
-                    .characterLevel(listingAccount.getCharacterLevel())
-                    .characterProfession(listingAccount.getCharacterProfession())
-                    .characterProfessionLevel(listingAccount.getCharacterProfessionLevel())
-                    .characterCurrencyAmount(listingAccount.getCharacterCurrencyAmount())
-                    .build();
+    public ListingAccount addListingAccount(ListingAccount listingAccount, Long userId) throws ListingException, UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        ListingAccount newListingAccount = ListingAccount.builder()
+                .listingTitle(listingAccount.getListingTitle())
+                .listingDescription(listingAccount.getListingDescription())
+                .listingPrice(listingAccount.getListingPrice())
+                .listingPublishDate(new Date())
+                .listingGameServer(listingAccount.getListingGameServer())
+                .listingCharacterName(listingAccount.getListingCharacterName())
+                .user(user)
+                .characterClass(listingAccount.getCharacterClass())
+                .characterLevel(listingAccount.getCharacterLevel())
+                .characterProfession(listingAccount.getCharacterProfession())
+                .characterProfessionLevel(listingAccount.getCharacterProfessionLevel())
+                .characterCurrencyAmount(listingAccount.getCharacterCurrencyAmount())
+                .build();
 
-            listingRepository.save(newListingAccount);
-            return newListingAccount;
-        } else {
-            throw new ListingException("This Listing Already Exists");
-        }
+        listingRepository.save(newListingAccount);
+        return newListingAccount;
 
 //        ListingAccount newListingAccount = new ListingAccount();
 //        newListingAccount.setListingTitle(listingAccount.getListingTitle());
