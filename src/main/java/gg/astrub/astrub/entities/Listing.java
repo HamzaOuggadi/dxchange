@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -27,4 +28,6 @@ public abstract class Listing {
     private String listingCharacterName;
     @ManyToOne
     private User user;
+    @OneToMany(mappedBy = "listing")
+    private List<Message> messages;
 }

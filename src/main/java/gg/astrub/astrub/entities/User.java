@@ -25,5 +25,8 @@ public class User {
     private boolean userBanned;
     @OneToMany(mappedBy = "user")
     private List<Listing> listings;
-
+    @OneToMany(mappedBy = "userSender")
+    private List<Message> sentMessages;
+    @OneToMany(mappedBy = "userRecipient")
+    private List<Message> receivedMessages;
 }
