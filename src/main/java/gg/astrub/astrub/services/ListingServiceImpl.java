@@ -99,7 +99,6 @@ public class ListingServiceImpl implements ListingService{
                 .characterProfessionLevel(listingAccount.getCharacterProfessionLevel())
                 .characterCurrencyAmount(listingAccount.getCharacterCurrencyAmount())
                 .build();
-
         listingRepository.save(newListingAccount);
         return newListingAccount;
 
