@@ -30,7 +30,7 @@ public class User {
     @OneToMany(mappedBy = "userRecipient")
     private List<Message> receivedMessages;
     @OneToMany(mappedBy = "reviewedUser")
-    private List<UserReview> userReviews;
-    @OneToOne(mappedBy = "reviewOwnerUser")
-    private UserReview userReview;
+    private List<UserReview> userOwnReviews;
+    @OneToMany(mappedBy = "reviewOwnerUser")
+    private List<UserReview> userReviewsLeft;
 }

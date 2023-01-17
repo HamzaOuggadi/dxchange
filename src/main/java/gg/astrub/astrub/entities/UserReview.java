@@ -18,6 +18,6 @@ public class UserReview {
     private String reviewContent;
     @ManyToOne
     private User reviewedUser;
-    @OneToOne
+    @ManyToOne
     private User reviewOwnerUser;
 }
