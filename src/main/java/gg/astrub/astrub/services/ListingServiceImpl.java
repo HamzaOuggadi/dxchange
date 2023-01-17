@@ -144,5 +144,6 @@ public class ListingServiceImpl implements ListingService{
     public void deleteListingById(Long listingId) throws ListingException {
         Listing listing = listingRepository.findById(listingId).orElseThrow(()-> new ListingException("Listing Not Found!"));
         listing.setIsdDeleted(true);
+        listingRepository.save(listing);
     }
 }

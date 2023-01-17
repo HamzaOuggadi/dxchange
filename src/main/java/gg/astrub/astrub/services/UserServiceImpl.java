@@ -77,5 +77,6 @@ public class UserServiceImpl implements UserService{
     public void banUserByID(Long userId) throws UserException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
         user.setUserBanned(true);
+        userRepository.save(user);
     }
 }

@@ -16,6 +16,7 @@ public class UserReview {
     private Long reviewId;
     private byte reviewStar;
     private String reviewContent;
+    private boolean isRemoved;
     @ManyToOne
     private User reviewedUser;
     @ManyToOne

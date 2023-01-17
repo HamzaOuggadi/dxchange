@@ -10,4 +10,6 @@ public interface UserReviewService {
     List<UserReview> userReviews();
     UserReview getUserReviewById(Long userReviewId) throws ReviewException;
     List<UserReview> getUserReviewsByUserId(Long userId) throws UserException;
+    void addUserReview(UserReview userReview, Long userReviewedId, Long userReviewOwner) throws UserException;
+    void removeUserReviewById(Long userReviewId) throws ReviewException;
 }

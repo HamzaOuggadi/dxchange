@@ -30,7 +30,27 @@ public class UserReviewServiceImpl implements UserReviewService{
     @Override
     public List<UserReview> getUserReviewsByUserId(Long userId) throws UserException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        return user.getUserOwnReviews();
+    }
 
-        return null;
+    @Override
+    public void addUserReview(UserReview userReview, Long userReviewedId, Long userReviewOwnerId) throws UserException {
+        User userReviewed = userRepository.findById(userReviewedId).orElseThrow(()-> new UserException("User Not Found!"));
+        User userReviewOwner = userRepository.findById(userReviewOwnerId).orElseThrow(()-> new UserException("User Not Found!"));
+        UserReview newUserReview = UserReview.builder()
+                .reviewedUser(userReviewed)
+                .reviewContent(userReview.getReviewContent())
+                .reviewStar(userReview.getReviewStar())
+                .reviewOwnerUser(userReviewOwner)
+                .isRemoved(false)
+                .build();
+        userReviewRepository.save(newUserReview);
+    }
+
+    @Override
+    public void removeUserReviewById(Long userReviewId) throws ReviewException {
+        UserReview userReview = userReviewRepository.findById(userReviewId).orElseThrow(()-> new ReviewException("Review Not Found!"));
+        userReview.setRemoved(true);
+        userReviewRepository.save(userReview);
     }
 }
