@@ -33,4 +33,8 @@ public class UserController {
     public void removeUserById(@PathVariable Long userId) throws UserException {
         userService.removeUserById(userId);
     }
+    @PatchMapping("/users/banUser/{userId}")
+    public void banUserById(@PathVariable Long userId) throws UserException {
+        userService.banUserByID(userId);
+    }
 }

@@ -32,6 +32,10 @@ public class ListingController {
     public Listing getListingById(@PathVariable Long listingId) throws ListingException {
         return listingService.getListingById(listingId);
     }
+    @GetMapping("/listings/listingsByUserId/{userId}")
+    public List<Listing> getListingByUserId(@PathVariable Long userId) throws UserException {
+        return listingService.getListingByUserId(userId);
+    }
     @PostMapping("/listings/addAccountListing/{userId}")
     public ListingAccount addAccountListing(@RequestBody ListingAccount listingAccount,
                                             @PathVariable Long userId) throws ListingException, UserException {

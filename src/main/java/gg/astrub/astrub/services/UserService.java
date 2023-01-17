@@ -11,5 +11,6 @@ public interface UserService {
     User addUser(User user) throws UserException;
     User editUser(User user) throws UserException;
     void removeUserById(Long userId) throws UserException;
+    void banUserByID(Long userId) throws UserException;
 
 }

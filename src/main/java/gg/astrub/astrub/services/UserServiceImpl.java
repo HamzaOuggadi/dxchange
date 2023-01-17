@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 @Service
 @Transactional
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService{
                     .userName(user.getUserName())
                     .userEmail(user.getUserEmail())
                     .userPassword(user.getUserPassword())
-                    .userCreatedAt(user.getUserCreatedAt())
+                    .userCreatedAt(new Date())
                     .userBanned(false)
                     .build();
             userRepository.save(newUser);
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User editUser(User user) throws UserException {
-        if (userRepository.findById(user.getUserId()) == null) {
+        if (userRepository.findById(user.getUserId()).isEmpty()) {
             throw new UserException("User With ID " + user.getUserId().toString() + " Doesn't Exist!");
         } else {
             return userRepository.save(user);
@@ -65,10 +66,16 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void removeUserById(Long userId) throws UserException {
-        if (userRepository.findById(userId) == null) {
+        if (userRepository.findById(userId).isEmpty()) {
             throw new UserException("User Not Found !");
         } else {
             userRepository.deleteById(userId);
         }
+    }
+
+    @Override
+    public void banUserByID(Long userId) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        user.setUserBanned(true);
     }
 }
