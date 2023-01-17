@@ -69,6 +69,7 @@ public class ListingServiceImpl implements ListingService{
                     .listingCharacterName(listingCurrency.getListingCharacterName())
                     .user(user)
                     .currencyAmount(listingCurrency.getCurrencyAmount())
+                    .isdDeleted(false)
                     .build();
             listingRepository.save(newListingCurrency);
             return newListingCurrency;
@@ -93,6 +94,7 @@ public class ListingServiceImpl implements ListingService{
                 .listingGameServer(listingAccount.getListingGameServer())
                 .listingCharacterName(listingAccount.getListingCharacterName())
                 .user(user)
+                .isdDeleted(false)
                 .characterClass(listingAccount.getCharacterClass())
                 .characterLevel(listingAccount.getCharacterLevel())
                 .characterProfession(listingAccount.getCharacterProfession())
@@ -124,7 +126,6 @@ public class ListingServiceImpl implements ListingService{
             return listingRepository.save(listingCurrency);
         }
     }
-
     @Override
     public ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException {
         if (listingRepository.findById(listingAccount.getListingId()).isEmpty()) {
@@ -133,9 +134,9 @@ public class ListingServiceImpl implements ListingService{
             return listingRepository.save(listingAccount);
         }
     }
-
     @Override
-    public void deleteListingById(Long listingId) {
-        listingRepository.deleteById(listingId);
+    public void deleteListingById(Long listingId) throws ListingException {
+        Listing listing = listingRepository.findById(listingId).orElseThrow(()-> new ListingException("Listing Not Found!"));
+        listing.setIsdDeleted(true);
     }
 }

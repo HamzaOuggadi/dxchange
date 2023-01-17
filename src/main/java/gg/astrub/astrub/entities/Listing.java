@@ -28,6 +28,7 @@ public abstract class Listing {
     private Date listingPublishDate;
     private String listingGameServer;
     private String listingCharacterName;
+    private boolean isdDeleted;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
     @OneToMany(mappedBy = "listing")

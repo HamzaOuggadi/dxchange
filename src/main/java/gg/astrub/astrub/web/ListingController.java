@@ -52,7 +52,7 @@ public class ListingController {
     }
 
     @DeleteMapping("/listings/deleteListing/{listingId}")
-    public void deleteListingById(@PathVariable Long listingId) {
+    public void deleteListingById(@PathVariable Long listingId) throws ListingException {
         listingService.deleteListingById(listingId);
     }
 }

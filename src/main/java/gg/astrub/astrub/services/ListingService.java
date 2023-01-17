@@ -17,5 +17,5 @@ public interface ListingService {
     ListingAccount addListingAccount(ListingAccount listingAccount, Long userId) throws ListingException, UserException;
     ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException;
     ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException;
-    void deleteListingById(Long listingId);
+    void deleteListingById(Long listingId) throws ListingException;
 }
