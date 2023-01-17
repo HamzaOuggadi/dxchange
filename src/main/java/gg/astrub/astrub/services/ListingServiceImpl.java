@@ -58,6 +58,12 @@ public class ListingServiceImpl implements ListingService{
     }
 
     @Override
+    public List<Listing> getListingByUserId(Long userId) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        return user.getListings();
+    }
+
+    @Override
     public ListingCurrency addListingCurrency(ListingCurrency listingCurrency, Long userId) throws ListingException, UserException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
             ListingCurrency newListingCurrency = ListingCurrency.builder()
