@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +24,30 @@ public class MessageServiceImpl implements MessageService{
     private MessageRepository messageRepository;
     private UserRepository userRepository;
     private ListingRepository listingRepository;
+
+    @Override
+    public Message getMessageById(Long messageId) throws MessageException {
+        return messageRepository.findById(messageId).orElseThrow(()-> new MessageException("Message Not Found!"));
+    }
+
+    @Override
+    public List<Message> getMessagesByListingId(Long listingId) throws ListingException {
+        Listing listing = listingRepository.findById(listingId).orElseThrow(()-> new ListingException("Listing Not found"));
+        return listing.getMessages();
+    }
+
+    @Override
+    public List<Message> getReceivedMessagesByUserId(Long userId) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        return user.getReceivedMessages();
+    }
+
+    @Override
+    public List<Message> getSentMessagesByUserId(Long userId) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        return user.getSentMessages();
+    }
+
     @Override
     public Message addMessage(String messageContent, Long userSenderId, Long userRecipientId, Long listingId) throws UserException, ListingException {
 

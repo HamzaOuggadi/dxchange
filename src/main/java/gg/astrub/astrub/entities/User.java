@@ -29,4 +29,8 @@ public class User {
     private List<Message> sentMessages;
     @OneToMany(mappedBy = "userRecipient")
     private List<Message> receivedMessages;
+    @OneToMany(mappedBy = "reviewedUser")
+    private List<UserReview> userReviews;
+    @OneToOne(mappedBy = "reviewOwnerUser")
+    private UserReview userReview;
 }

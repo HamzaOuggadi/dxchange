@@ -37,22 +37,22 @@ public class ListingController {
         return listingService.getListingByUserId(userId);
     }
     @PostMapping("/listings/addAccountListing/{userId}")
-    public ListingAccount addAccountListing(@RequestBody ListingAccount listingAccount,
-                                            @PathVariable Long userId) throws ListingException, UserException {
-        return listingService.addListingAccount(listingAccount, userId);
+    public void addAccountListing(@RequestBody ListingAccount listingAccount,
+                                  @PathVariable Long userId) throws ListingException, UserException {
+        listingService.addListingAccount(listingAccount, userId);
     }
     @PostMapping("/listings/addCurrencyListing/{userId}")
-    public ListingCurrency addCurrencyListing(@RequestBody ListingCurrency listingCurrency,
-                                              @PathVariable Long userId) throws ListingException, UserException {
-        return listingService.addListingCurrency(listingCurrency, userId);
+    public void addCurrencyListing(@RequestBody ListingCurrency listingCurrency,
+                                   @PathVariable Long userId) throws ListingException, UserException {
+        listingService.addListingCurrency(listingCurrency, userId);
     }
     @PutMapping("/listings/editAccountListing")
-    public ListingAccount editAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {
-        return listingService.editListingAccount(listingAccount);
+    public void editAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {
+        listingService.editListingAccount(listingAccount);
     }
     @PutMapping("/listings/editCurrencyListing")
-    public ListingCurrency editCurrencyListing(@RequestBody ListingCurrency listingCurrency) throws ListingException {
-        return listingService.editListingCurrency(listingCurrency);
+    public void editCurrencyListing(@RequestBody ListingCurrency listingCurrency) throws ListingException {
+        listingService.editListingCurrency(listingCurrency);
     }
 
     @DeleteMapping("/listings/deleteListing/{listingId}")
