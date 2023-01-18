@@ -15,6 +15,7 @@ public class UserReview {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
     private byte reviewStar;
+    private String reviewTitle;
     private String reviewContent;
     private boolean isRemoved;
     @ManyToOne

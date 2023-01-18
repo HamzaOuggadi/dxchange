@@ -39,6 +39,7 @@ public class UserReviewServiceImpl implements UserReviewService{
         User userReviewOwner = userRepository.findById(userReviewOwnerId).orElseThrow(()-> new UserException("User Not Found!"));
         UserReview newUserReview = UserReview.builder()
                 .reviewedUser(userReviewed)
+                .reviewTitle(userReview.getReviewTitle())
                 .reviewContent(userReview.getReviewContent())
                 .reviewStar(userReview.getReviewStar())
                 .reviewOwnerUser(userReviewOwner)
