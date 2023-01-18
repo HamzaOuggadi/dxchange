@@ -29,6 +29,11 @@ public class UserController {
     public User editUser(@RequestBody User user) throws UserException {
         return userService.editUser(user);
     }
+    @PatchMapping("/users/saveUserProfilePhoto/{userId}/{userProfilePhoto}")
+    public void saveUserProfilePhoto(@PathVariable Long userId,
+                                     @PathVariable String userProfilePhoto) throws UserException {
+        userService.setUserProfilePhoto(userId, userProfilePhoto);
+    }
     @DeleteMapping("/users/removeUser/{userId}")
     public void removeUserById(@PathVariable Long userId) throws UserException {
         userService.removeUserById(userId);

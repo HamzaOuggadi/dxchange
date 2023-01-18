@@ -21,6 +21,7 @@ public class User {
     private String userName;
     private String userEmail;
     private String userPassword;
+    private String userProfilePicture;
     private Date userCreatedAt;
     private boolean userBanned;
     @OneToMany(mappedBy = "user")

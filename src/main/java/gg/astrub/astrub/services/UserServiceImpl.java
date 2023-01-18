@@ -65,6 +65,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void setUserProfilePhoto(Long userId, String userProfilePhoto) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        user.setUserProfilePicture(userProfilePhoto);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void editUserProfilePhoto(Long userId, String userProfilePhoto) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        user.setUserProfilePicture(userProfilePhoto);
+        userRepository.save(user);
+    }
+
+    @Override
     public void removeUserById(Long userId) throws UserException {
         if (userRepository.findById(userId).isEmpty()) {
             throw new UserException("User Not Found !");
