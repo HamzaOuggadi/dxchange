@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/* Need to add limitations of how many reviews can be left by one single user for each review to prevent Spam reviews */
+/* NBA : Need to add limitations of how many reviews can be left by one single user for each review to prevent Spam reviews */
 @Service
 @Transactional
 @AllArgsConstructor
