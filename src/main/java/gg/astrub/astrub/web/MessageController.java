@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/* Need to test every endpoint before Spring Security and Authentication */
+
 @RestController
 @AllArgsConstructor
 public class MessageController {
