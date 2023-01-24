@@ -17,32 +17,32 @@ import java.util.List;
 public class ListingController {
     private ListingServiceImpl listingService;
 
-    @GetMapping("/listings")
+    @GetMapping("/listings") /* Tested => OK */
     public List<Listing> getAllListings() throws ListingException {
         return listingService.listAllListing();
     }
-    @GetMapping("/listings/accountListings")
+    @GetMapping("/listings/accountListings") /* Tested => OK */
     public List<ListingAccount> getAccountListings() throws ListingException {
         return listingService.listAccountListing();
     }
-    @GetMapping("/listings/currencyListings")
+    @GetMapping("/listings/currencyListings") /* Tested => OK */
     public List<ListingCurrency> getCurrencyListings() throws ListingException {
         return listingService.listCurrencyListing();
     }
-    @GetMapping("/listings/{listingId}")
+    @GetMapping("/listings/{listingId}") /* Tested => OK */
     public Listing getListingById(@PathVariable Long listingId) throws ListingException {
         return listingService.getListingById(listingId);
     }
-    @GetMapping("/listings/listingsByUserId/{userId}")
+    @GetMapping("/listings/listingsByUserId/{userId}") /* Tested => OK */
     public List<Listing> getListingByUserId(@PathVariable Long userId) throws UserException {
         return listingService.getListingByUserId(userId);
     }
-    @PostMapping("/listings/addAccountListing/{userId}")
+    @PostMapping("/listings/addAccountListing/{userId}") /* Tested => OK */
     public void addAccountListing(@RequestBody ListingAccount listingAccount,
                                   @PathVariable Long userId) throws ListingException, UserException {
         listingService.addListingAccount(listingAccount, userId);
     }
-    @PostMapping("/listings/addCurrencyListing/{userId}")
+    @PostMapping("/listings/addCurrencyListing/{userId}") /* Tested => OK */
     public void addCurrencyListing(@RequestBody ListingCurrency listingCurrency,
                                    @PathVariable Long userId) throws ListingException, UserException {
         listingService.addListingCurrency(listingCurrency, userId);
