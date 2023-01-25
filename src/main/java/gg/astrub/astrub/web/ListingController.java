@@ -56,7 +56,7 @@ public class ListingController {
         listingService.editListingCurrency(listingCurrency);
     }
 
-    @DeleteMapping("/listings/deleteListing/{listingId}")
+    @DeleteMapping("/listings/deleteListing/{listingId}") /* Tested => OK */
     public void deleteListingById(@PathVariable Long listingId) throws ListingException {
         listingService.deleteListingById(listingId);
     }
