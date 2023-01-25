@@ -51,7 +51,7 @@ public class ListingController {
     public void editAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {
         listingService.editListingAccount(listingAccount);
     }
-    @PutMapping("/listings/editCurrencyListing")
+    @PutMapping("/listings/editCurrencyListing") /* Tested => OK */
     public void editCurrencyListing(@RequestBody ListingCurrency listingCurrency) throws ListingException {
         listingService.editListingCurrency(listingCurrency);
     }

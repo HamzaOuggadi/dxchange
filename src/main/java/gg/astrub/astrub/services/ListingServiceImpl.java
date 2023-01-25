@@ -55,7 +55,12 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public Listing getListingById(Long listingId) throws ListingException {
-        return listingRepository.findById(listingId).orElseThrow(()->new ListingException("Listing Not Found With The Given ID"));
+        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException("Listing Not Found!"));
+        if (listingById.isIsdDeleted()) {
+            throw new ListingException("Listing Already Deleted.");
+        } else {
+            return listingRepository.findById(listingId).orElseThrow(()->new ListingException("Listing Not Found With The Given ID"));
+        }
     }
 
     @Override
@@ -129,11 +134,14 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException {
-        if (listingRepository.findById(listingCurrency.getListingId()).isEmpty()) {
-            throw new ListingException("This Listing Doesn't Exist !");
-        } else {
-            return listingRepository.save(listingCurrency);
-        }
+        ListingCurrency editedListingCurrency = listingCurrencyRepository.findById(listingCurrency.getListingId()).orElseThrow(()-> new ListingException("Listing Not Found!"));
+        editedListingCurrency.setListingTitle(listingCurrency.getListingTitle());
+        editedListingCurrency.setListingDescription(listingCurrency.getListingDescription());
+        editedListingCurrency.setListingPrice(listingCurrency.getListingPrice());
+        editedListingCurrency.setListingGameServer(listingCurrency.getListingGameServer());
+        editedListingCurrency.setListingCharacterName(listingCurrency.getListingCharacterName());
+        editedListingCurrency.setCurrencyAmount(listingCurrency.getCurrencyAmount());
+        return listingRepository.save(editedListingCurrency);
     }
     @Override
     public ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException {
