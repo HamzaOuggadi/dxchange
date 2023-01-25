@@ -1,12 +1,10 @@
 package gg.astrub.astrub;
 
 
-import gg.astrub.astrub.entities.Listing;
-import gg.astrub.astrub.entities.ListingAccount;
-import gg.astrub.astrub.entities.ListingCurrency;
-import gg.astrub.astrub.entities.User;
+import gg.astrub.astrub.entities.*;
 import gg.astrub.astrub.enums.ListingType;
 import gg.astrub.astrub.repositories.ListingRepository;
+import gg.astrub.astrub.repositories.MessageRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import gg.astrub.astrub.services.ListingServiceImpl;
 import gg.astrub.astrub.services.UserServiceImpl;
@@ -30,7 +28,8 @@ public class AstrubApplication {
 	CommandLineRunner start(UserRepository userRepository,
 							ListingRepository listingRepository,
 							ListingServiceImpl listingService,
-							UserServiceImpl userService) {
+							UserServiceImpl userService,
+							MessageRepository messageRepository) {
 		return args -> {
 			User testUser = User.builder()
 					.userName("TestUser")
@@ -98,13 +97,26 @@ public class AstrubApplication {
 				listingRepository.save(listing2);
 			}
 
-			User user2 = userService.getUserById(3L);
+			Stream.of("Wash", "Salut", "Hola").forEach(msg-> {
+				Message message = Message.builder()
+						.messageContent(msg)
+						.messageDate(new Date())
+						.messageViewed(false)
+						.userSender(userRepository.findById(1L).orElseThrow())
+						.userRecipient(userRepository.findById(2L).orElseThrow())
+						.messageDeleted(false)
+						.listing(listingRepository.findById(1L).orElseThrow())
+						.build();
+				messageRepository.save(message);
+			});
 
-			System.out.println("User2 : " + user2.getUserName() + " " + user2.getUserEmail() + " " + user2.getUserCreatedAt());
-
-			Listing listing = listingService.getListingById(4L);
-
-			System.out.println("Listing 4 : " + listing.getListingTitle() + " " + listing.getListingDescription());
+//			User user2 = userService.getUserById(3L);
+//
+//			System.out.println("User2 : " + user2.getUserName() + " " + user2.getUserEmail() + " " + user2.getUserCreatedAt());
+//
+//			Listing listing = listingService.getListingById(4L);
+//
+//			System.out.println("Listing 4 : " + listing.getListingTitle() + " " + listing.getListingDescription());
 		};
 	}
 
