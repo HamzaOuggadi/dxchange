@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MessageController {
     private MessageServiceImpl messageService;
-    @GetMapping("/messages/{messageId}")
+    @GetMapping("/messages/{messageId}") /* Tested => OK */
     public Message getMessageById(@PathVariable Long messageId) throws MessageException {
         return messageService.getMessageById(messageId);
     }
