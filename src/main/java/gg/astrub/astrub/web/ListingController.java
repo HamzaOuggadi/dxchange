@@ -47,7 +47,7 @@ public class ListingController {
                                    @PathVariable Long userId) throws ListingException, UserException {
         listingService.addListingCurrency(listingCurrency, userId);
     }
-    @PutMapping("/listings/editAccountListing")
+    @PutMapping("/listings/editAccountListing") /* Tested => OK */
     public void editAccountListing(@RequestBody ListingAccount listingAccount) throws ListingException {
         listingService.editListingAccount(listingAccount);
     }

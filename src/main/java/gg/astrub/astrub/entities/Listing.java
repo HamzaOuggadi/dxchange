@@ -1,6 +1,7 @@
 package gg.astrub.astrub.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gg.astrub.astrub.enums.ListingType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public abstract class Listing {
     private String listingGameServer;
     private String listingCharacterName;
     private boolean isdDeleted;
+    private ListingType listingType;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
     @OneToMany(mappedBy = "listing")

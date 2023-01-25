@@ -5,6 +5,7 @@ import gg.astrub.astrub.entities.Listing;
 import gg.astrub.astrub.entities.ListingAccount;
 import gg.astrub.astrub.entities.ListingCurrency;
 import gg.astrub.astrub.entities.User;
+import gg.astrub.astrub.enums.ListingType;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import gg.astrub.astrub.services.ListingServiceImpl;
@@ -61,6 +62,7 @@ public class AstrubApplication {
 						.listingGameServer("Ilyzaelle")
 						.listingCharacterName("XxDarkxX")
 						.currencyAmount(Long.valueOf((long) (1000000+(Math.random()*100000000))))
+						.listingType(ListingType.CURRENCY_LISTING)
 						.build();
 				listingRepository.save(listingCurrency);
 			});
@@ -73,6 +75,7 @@ public class AstrubApplication {
 						.listingPublishDate(new Date())
 						.listingGameServer("Nidas")
 						.listingCharacterName("Best-Iop")
+						.listingType(ListingType.ACCOUNT_LISTING)
 						.characterClass("Iop")
 						.characterLevel(200)
 						.characterProfession("Forgeron")
