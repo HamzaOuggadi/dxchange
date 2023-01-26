@@ -27,7 +27,12 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Message getMessageById(Long messageId) throws MessageException {
-        return messageRepository.findById(messageId).orElseThrow(()-> new MessageException("Message Not Found!"));
+        Message message = messageRepository.findById(messageId).orElseThrow(()-> new MessageException("Message Not Found!"));
+        if (message.isMessageDeleted()) {
+            throw new MessageException("Message is Deleted.");
+        } else {
+            return message;
+        }
     }
 
     @Override

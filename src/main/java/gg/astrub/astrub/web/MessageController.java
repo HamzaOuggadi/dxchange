@@ -42,7 +42,7 @@ public class MessageController {
                             @RequestParam Long listingId) throws ListingException, UserException {
         messageService.addMessage(messageContent, userSenderId, userRecipientId, listingId);
     }
-    @DeleteMapping("/messages/deleteMessageById/{messageId}")
+    @DeleteMapping("/messages/deleteMessageById/{messageId}") /* Tested => OK */
     public void deleteMessageById(@PathVariable Long messageId) throws MessageException {
         messageService.deleteMessage(messageId);
     }
