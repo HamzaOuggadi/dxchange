@@ -31,6 +31,6 @@ public abstract class Listing {
     private ListingType listingType;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
-    @OneToMany(mappedBy = "listing") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "listing")
     private List<Message> messages;
 }

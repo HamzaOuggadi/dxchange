@@ -25,6 +25,6 @@ public class Message {
     private User userRecipient;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User userSender;
-    @ManyToOne
+    @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Listing listing;
 }
