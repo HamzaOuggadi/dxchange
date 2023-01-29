@@ -6,6 +6,7 @@ import gg.astrub.astrub.enums.ListingType;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.MessageRepository;
 import gg.astrub.astrub.repositories.UserRepository;
+import gg.astrub.astrub.repositories.UserReviewRepository;
 import gg.astrub.astrub.services.ListingServiceImpl;
 import gg.astrub.astrub.services.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -29,7 +30,8 @@ public class AstrubApplication {
 							ListingRepository listingRepository,
 							ListingServiceImpl listingService,
 							UserServiceImpl userService,
-							MessageRepository messageRepository) {
+							MessageRepository messageRepository,
+							UserReviewRepository userReviewRepository) {
 		return args -> {
 			User testUser = User.builder()
 					.userName("TestUser")
@@ -108,6 +110,17 @@ public class AstrubApplication {
 						.listing(listingRepository.findById(1L).orElseThrow())
 						.build();
 				messageRepository.save(message);
+			});
+
+			Stream.of("Review Title 1", "Achawa hadchi", "Rojoula").forEach(rvw -> {
+				UserReview userReview = UserReview.builder()
+						.reviewTitle(rvw)
+						.reviewContent("Review Content : " + rvw)
+						.reviewStar((byte) 4)
+						.isRemoved(false)
+						.reviewedUser(userRepository.findById(1L).orElseThrow())
+						.reviewOwnerUser(userRepository.findById(2L).orElseThrow())
+						.build();
 			});
 
 //			User user2 = userService.getUserById(3L);
