@@ -8,18 +8,22 @@ import gg.astrub.astrub.repositories.MessageRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import gg.astrub.astrub.repositories.UserReviewRepository;
 import gg.astrub.astrub.services.ListingServiceImpl;
+import gg.astrub.astrub.services.UserReviewServiceImpl;
 import gg.astrub.astrub.services.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 /* Added new branch "dev-env"*/
 
 @SpringBootApplication
+@Slf4j
 public class AstrubApplication {
 
 	public static void main(String[] args) {
@@ -31,7 +35,8 @@ public class AstrubApplication {
 							ListingServiceImpl listingService,
 							UserServiceImpl userService,
 							MessageRepository messageRepository,
-							UserReviewRepository userReviewRepository) {
+							UserReviewRepository userReviewRepository,
+							UserReviewServiceImpl userReviewService) {
 		return args -> {
 			User testUser = User.builder()
 					.userName("TestUser")
@@ -123,6 +128,10 @@ public class AstrubApplication {
 						.build();
 				userReviewRepository.save(userReview);
 			});
+
+//			log.info("------------LOG START-------------");
+//			List<UserReview> review = userReviewService.getUserReviewsByUserId(1L);
+//			log.info("------------LOG END---------------");
 
 //			User user2 = userService.getUserById(3L);
 //

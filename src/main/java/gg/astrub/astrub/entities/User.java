@@ -1,5 +1,6 @@
 package gg.astrub.astrub.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,8 +31,8 @@ public class User {
     private List<Message> sentMessages;
     @OneToMany(mappedBy = "userRecipient")
     private List<Message> receivedMessages;
-    @OneToMany(mappedBy = "reviewedUser")
+    @OneToMany(mappedBy = "reviewedUser") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<UserReview> userOwnReviews;
-    @OneToMany(mappedBy = "reviewOwnerUser")
+    @OneToMany(mappedBy = "reviewOwnerUser") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<UserReview> userReviewsLeft;
 }
