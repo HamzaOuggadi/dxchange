@@ -121,6 +121,7 @@ public class AstrubApplication {
 						.reviewedUser(userRepository.findById(1L).orElseThrow())
 						.reviewOwnerUser(userRepository.findById(2L).orElseThrow())
 						.build();
+				userReviewRepository.save(userReview);
 			});
 
 //			User user2 = userService.getUserById(3L);
