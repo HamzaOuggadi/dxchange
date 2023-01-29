@@ -27,13 +27,13 @@ public class ReviewService {
     public List<UserReview> getReviewsByUserId(@PathVariable Long userId) throws UserException {
         return reviewService.getUserReviewsByUserId(userId);
     }
-    @PostMapping("/reviews/addReview/{userReviewedId}/{userReviewOwnerId}")
+    @PostMapping("/reviews/addReview/{userReviewedId}/{userReviewOwnerId}") /* Tested => OK */
     public void addReview(@RequestBody UserReview userReview,
                           @PathVariable Long userReviewedId,
                           @PathVariable Long userReviewOwnerId) throws UserException {
         reviewService.addUserReview(userReview, userReviewedId, userReviewOwnerId);
     }
-    @DeleteMapping("/reviews/removeReviewById/{reviewId}")
+    @DeleteMapping("/reviews/removeReviewById/{reviewId}") /* Tested => OK */
     public void removeReview(@PathVariable Long reviewId) throws ReviewException {
         reviewService.removeUserReviewById(reviewId);
     }
