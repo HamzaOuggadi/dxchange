@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User editUser(User user) throws UserException {
-        if (userRepository.findById(user.getUserId()).isEmpty()) {
-            throw new UserException("User With ID " + user.getUserId().toString() + " Doesn't Exist!");
-        } else {
-            return userRepository.save(user);
-        }
+        User userToEdit = userRepository.findById(user.getUserId()).orElseThrow(()-> new UserException("User Not Found !"));
+        userToEdit.setUserName(user.getUserName());
+        userToEdit.setUserEmail(user.getUserEmail());
+        userToEdit.setUserPassword(user.getUserPassword());
+        return userRepository.save(userToEdit);
 //        User editedUser = userRepository.findById(user.getUserId()).orElseThrow(()-> new UserException("User Not Found!"));
 //        editedUser.setUserName(user.getUserName());
 //        editedUser.setUserEmail(user.getUserEmail());

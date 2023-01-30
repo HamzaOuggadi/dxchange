@@ -15,25 +15,25 @@ import java.util.List;
 public class UserController {
     private UserServiceImpl userService;
 
-    @GetMapping("/users")
+    @GetMapping("/users") /* Tested => OK */
     public List<User> getUsers() throws UserException {
         return userService.listUsers();
     }
-    @GetMapping("/users/{userId}")
+    @GetMapping("/users/{userId}") /* Tested => OK */
     public User getUserById(@PathVariable Long userId) throws UserException {
         return userService.getUserById(userId);
     }
-    @PostMapping("/users/addUser")
-    public User addUser(@RequestBody User user) throws UserException {
-        return userService.addUser(user);
+    @PostMapping("/users/addUser") /* Tested => OK */
+    public void addUser(@RequestBody User user) throws UserException {
+        userService.addUser(user);
     }
-    @PutMapping("/users/editUser")
-    public User editUser(@RequestBody User user) throws UserException {
-        return userService.editUser(user);
+    @PatchMapping("/users/editUser") /* Tested => OK */
+    public void editUser(@RequestBody User user) throws UserException {
+        userService.editUser(user);
     }
-    @PatchMapping("/users/saveUserProfilePhoto/{userId}/{userProfilePhoto}")
-    public void saveUserProfilePhoto(@PathVariable Long userId,
-                                     @PathVariable String userProfilePhoto) throws UserException {
+    @PatchMapping("/users/saveUserProfilePhoto")
+    public void saveUserProfilePhoto(@RequestParam(name = "userId") Long userId,
+                                     @RequestParam(name = "photo") String userProfilePhoto) throws UserException {
         userService.setUserProfilePhoto(userId, userProfilePhoto);
     }
     @DeleteMapping("/users/removeUser/{userId}")
