@@ -31,11 +31,6 @@ public class UserController {
     public void editUser(@RequestBody User user) throws UserException {
         userService.editUser(user);
     }
-    @PatchMapping("/users/saveUserProfilePhoto")
-    public void saveUserProfilePhoto(@RequestParam(name = "userId") Long userId,
-                                     @RequestParam(name = "photo") String userProfilePhoto) throws UserException {
-        userService.setUserProfilePhoto(userId, userProfilePhoto);
-    }
     @DeleteMapping("/users/removeUser/{userId}")
     public void removeUserById(@PathVariable Long userId) throws UserException {
         userService.removeUserById(userId);

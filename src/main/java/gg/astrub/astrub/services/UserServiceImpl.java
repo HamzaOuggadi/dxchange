@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -64,18 +66,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void setUserProfilePhoto(Long userId, String userProfilePhoto) throws UserException {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
-        user.setUserProfilePicture(userProfilePhoto);
+    public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
+        String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        user.setUserProfilePicture(photoFileName);
         userRepository.save(user);
+
     }
 
-    @Override
-    public void editUserProfilePhoto(Long userId, String userProfilePhoto) throws UserException {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
-        user.setUserProfilePicture(userProfilePhoto);
-        userRepository.save(user);
-    }
 
     @Override
     public void removeUserById(Long userId) throws UserException {
