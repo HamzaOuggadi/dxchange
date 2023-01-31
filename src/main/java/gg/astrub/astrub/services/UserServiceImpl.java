@@ -5,6 +5,7 @@ import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -68,10 +69,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
-        String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()) + user.getUserName();
         user.setUserProfilePicture(photoFileName);
         userRepository.save(user);
-
+        String uploadDir = "userProfilePhotos/" + user.getUserId();
     }
 
 
