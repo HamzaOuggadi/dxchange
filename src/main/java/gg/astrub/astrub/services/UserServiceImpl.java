@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public MultipartFile getUserProfilePhoto(Long userId) throws UserException {
+    public MultipartFile getUserProfilePhoto(Long userId) throws UserException { // Work in Progress
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
         return null;
     }
