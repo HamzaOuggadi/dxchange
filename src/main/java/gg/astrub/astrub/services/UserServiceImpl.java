@@ -76,10 +76,7 @@ public class UserServiceImpl implements UserService{
     public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException, IOException, FileException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
         if (!multipartFile.isEmpty()) {
-            String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()) + user.getUserName();
-            user.setUserProfilePicture(photoFileName);
-            userRepository.save(user);
-            String uploadDir = System.getProperty("user.home") + "/userProfilePhotos/" + user.getUserId() + "-" + multipartFile.getOriginalFilename();
+            String uploadDir = System.getProperty("user.home") + "/userProfilePhotos/" + user.getUserId() + "-" + user.getUserName() + "-" + multipartFile.getOriginalFilename();
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
@@ -89,9 +86,18 @@ public class UserServiceImpl implements UserService{
             } catch (IOException ioException) {
                 throw new IOException("Could not Save the file : " + multipartFile.toString(), ioException);
             }
+            user.setUserProfilePicture(uploadDir);
+            userRepository.save(user);
         } else {
             throw new FileException("File Not Found !");
         }
+    }
+
+    @Override
+    public MultipartFile getUserProfilePhoto(Long userId) throws UserException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
+
+        return null;
     }
 
 
