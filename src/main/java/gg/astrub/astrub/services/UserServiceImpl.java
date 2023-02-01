@@ -1,6 +1,7 @@
 package gg.astrub.astrub.services;
 
 import gg.astrub.astrub.entities.User;
+import gg.astrub.astrub.exceptions.FileException;
 import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -69,13 +70,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException, IOException {
+    public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException, IOException, FileException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
-        String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()) + user.getUserName();
-        user.setUserProfilePicture(photoFileName);
-        userRepository.save(user);
-        String uploadDir = "userProfilePhotos/" + user.getUserId();
-        multipartFile.transferTo(new File(uploadDir));
+        if (!multipartFile.isEmpty()) {
+            String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()) + user.getUserName();
+            user.setUserProfilePicture(photoFileName);
+            userRepository.save(user);
+            String uploadDir = "userProfilePhotos/" + user.getUserId();
+            multipartFile.transferTo(new File(uploadDir));
+        } else {
+            throw new FileException("File Not Found !");
+        }
     }
 
 
