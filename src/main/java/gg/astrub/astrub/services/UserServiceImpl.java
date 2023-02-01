@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -76,8 +79,16 @@ public class UserServiceImpl implements UserService{
             String photoFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename()) + user.getUserName();
             user.setUserProfilePicture(photoFileName);
             userRepository.save(user);
-            String uploadDir = "userProfilePhotos/" + user.getUserId();
-            multipartFile.transferTo(new File(uploadDir));
+            String uploadDir = System.getProperty("user.home") + "/userProfilePhotos/" + user.getUserId() + "-" + multipartFile.getOriginalFilename();
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try {
+                multipartFile.transferTo(new File(uploadPath.toUri()));
+            } catch (IOException ioException) {
+                throw new IOException("Could not Save the file : " + multipartFile.toString(), ioException);
+            }
         } else {
             throw new FileException("File Not Found !");
         }
