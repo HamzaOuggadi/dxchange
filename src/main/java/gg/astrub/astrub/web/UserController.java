@@ -35,7 +35,7 @@ public class UserController {
     public void editUser(@RequestBody User user) throws UserException {
         userService.editUser(user);
     }
-    @PostMapping("/users/addPhoto")
+    @PostMapping("/users/addPhoto") /* Tested => OK */
     public String addUserProfilePhoto(@RequestParam(name = "userId") Long userId,
                                     @RequestParam(name = "profilePhoto") MultipartFile file,
                                     RedirectAttributes redirectAttributes) throws FileException, UserException, IOException {
@@ -43,11 +43,10 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "File Upload Successful.");
         return "redirect:/";
     }
-    @PostMapping("/users/addPhotoAsLOB")
+    @PostMapping("/users/addPhotoAsLOB") /* Tested => OK */
     public void addUserProfilePhotoAsLOB(@RequestParam(name = "userId") Long userId,
                                          @RequestParam(name = "profilePhoto") MultipartFile file) throws UserException, IOException {
         userService.setUserProfilePhotoAsLOB(userId, file);
-
     }
     @DeleteMapping("/users/removeUser/{userId}")
     public void removeUserById(@PathVariable Long userId) throws UserException {
