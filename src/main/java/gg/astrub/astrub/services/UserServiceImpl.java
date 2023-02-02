@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService{
 //        userRepository.save(editedUser);
     }
 
-    @Override
+    @Override // Uploading images as a file and saved in user/home dir
     public void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException, IOException, FileException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
         if (!multipartFile.isEmpty()) {
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    @Override
+    @Override // Uploading images as LOB and saving them in the DB
     public void setUserProfilePhotoAsLOB(Long userId, MultipartFile file) throws UserException, IOException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
         FileDB fileDB = new FileDB();
