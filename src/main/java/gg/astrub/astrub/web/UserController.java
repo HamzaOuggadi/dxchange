@@ -43,6 +43,12 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "File Upload Successful.");
         return "redirect:/";
     }
+    @PostMapping("/users/addPhotoAsLOB")
+    public void addUserProfilePhotoAsLOB(@RequestParam(name = "userId") Long userId,
+                                         @RequestParam(name = "profilePhoto") MultipartFile file) throws UserException, IOException {
+        userService.setUserProfilePhotoAsLOB(userId, file);
+
+    }
     @DeleteMapping("/users/removeUser/{userId}")
     public void removeUserById(@PathVariable Long userId) throws UserException {
         userService.removeUserById(userId);
