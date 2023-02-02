@@ -51,7 +51,7 @@ public class UserController {
                                          @RequestParam(name = "profilePhoto") MultipartFile file) throws UserException, IOException {
         userService.setUserProfilePhotoAsLOB(userId, file);
     }
-    @GetMapping("/users/getUserProfilePhoto")
+    @GetMapping("/users/getUserProfilePhoto") /* Tested => OK */
     public ResponseEntity<Resource> getUserProfilePhoto(@RequestParam(name = "userId") Long userId) throws Exception {
         Resource image = userService.getUserProfilePhoto(userId);
         return ResponseEntity.ok()
