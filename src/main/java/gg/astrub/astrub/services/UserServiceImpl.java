@@ -8,6 +8,8 @@ import gg.astrub.astrub.repositories.FileDBRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -110,11 +112,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public MultipartFile getUserProfilePhoto(Long userId) throws UserException { // Work in Progress
+    public Resource getUserProfilePhoto(Long userId) throws Exception {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
-        return null;
+        String fileName = user.getUserProfilePicture();
+        try {
+            Resource profilePhoto = new FileSystemResource(fileName);
+            return profilePhoto;
+        } catch (Exception exception) {
+            throw new Exception("Could Not Save File !", exception);
+        }
     }
-
 
     @Override
     public void removeUserById(Long userId) throws UserException {

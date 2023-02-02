@@ -5,6 +5,9 @@ import gg.astrub.astrub.exceptions.FileException;
 import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.services.UserServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,6 +50,13 @@ public class UserController {
     public void addUserProfilePhotoAsLOB(@RequestParam(name = "userId") Long userId,
                                          @RequestParam(name = "profilePhoto") MultipartFile file) throws UserException, IOException {
         userService.setUserProfilePhotoAsLOB(userId, file);
+    }
+    @GetMapping("/users/getUserProfilePhoto")
+    public ResponseEntity<Resource> getUserProfilePhoto(@RequestParam(name = "userId") Long userId) throws Exception {
+        Resource image = userService.getUserProfilePhoto(userId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image);
     }
     @DeleteMapping("/users/removeUser/{userId}")
     public void removeUserById(@PathVariable Long userId) throws UserException {

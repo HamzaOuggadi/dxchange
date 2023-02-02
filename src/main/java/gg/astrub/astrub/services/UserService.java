@@ -3,6 +3,7 @@ package gg.astrub.astrub.services;
 import gg.astrub.astrub.entities.User;
 import gg.astrub.astrub.exceptions.FileException;
 import gg.astrub.astrub.exceptions.UserException;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public interface UserService {
     User editUser(User user) throws UserException;
     void setUserProfilePhoto(Long userId, MultipartFile multipartFile) throws UserException, IOException, FileException;
     void setUserProfilePhotoAsLOB(Long userId, MultipartFile file) throws UserException, IOException;
-    MultipartFile getUserProfilePhoto(Long userId) throws UserException;
+    Resource getUserProfilePhoto(Long userId) throws Exception;
     void removeUserById(Long userId) throws UserException;
     void banUserByID(Long userId) throws UserException;
 
