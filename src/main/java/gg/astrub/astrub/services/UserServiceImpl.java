@@ -94,6 +94,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void setUserProfilePhotoAsLOB(Long userId, MultipartFile file) throws UserException, IOException {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
+        try {
+            byte[] photo = file.getBytes();
+        } catch (IOException ioException) {
+            throw new IOException("Could not Save File :" + file.toString(), ioException);
+        }
+    }
+
+    @Override
     public MultipartFile getUserProfilePhoto(Long userId) throws UserException { // Work in Progress
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found !"));
         return null;
