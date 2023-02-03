@@ -126,6 +126,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void removeUserById(Long userId) throws UserException {
         if (userRepository.findById(userId).isEmpty()) {
+            log.info("Stopped Here");
             throw new UserException("User Not Found !");
         } else {
             userRepository.deleteById(userId);

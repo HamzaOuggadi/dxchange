@@ -25,14 +25,14 @@ public class User {
     private String userProfilePicture;
     private Date userCreatedAt;
     private boolean userBanned;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Listing> listings;
-    @OneToMany(mappedBy = "userSender")
+    @OneToMany(mappedBy = "userSender", cascade = CascadeType.REMOVE)
     private List<Message> sentMessages;
-    @OneToMany(mappedBy = "userRecipient")
+    @OneToMany(mappedBy = "userRecipient", cascade = CascadeType.REMOVE)
     private List<Message> receivedMessages;
-    @OneToMany(mappedBy = "reviewedUser") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "reviewedUser", cascade = CascadeType.REMOVE) @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<UserReview> userOwnReviews;
-    @OneToMany(mappedBy = "reviewOwnerUser") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "reviewOwnerUser", cascade = CascadeType.REMOVE) @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<UserReview> userReviewsLeft;
 }

@@ -58,8 +58,8 @@ public class UserController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(image);
     }
-    @DeleteMapping("/users/removeUser/{userId}")
-    public void removeUserById(@PathVariable Long userId) throws UserException {
+    @DeleteMapping("/users/removeUserById")
+    public void removeUserById(@RequestParam(name = "userId") Long userId) throws UserException {
         userService.removeUserById(userId);
     }
     @PatchMapping("/users/banUser/{userId}")
