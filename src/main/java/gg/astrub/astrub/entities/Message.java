@@ -1,5 +1,6 @@
 package gg.astrub.astrub.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +21,10 @@ public class Message {
     private Date messageDate;
     private boolean messageViewed;
     private boolean messageDeleted;
-    @ManyToOne
+    @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User userRecipient;
-    @ManyToOne
+    @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User userSender;
-    @ManyToOne
+    @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Listing listing;
 }

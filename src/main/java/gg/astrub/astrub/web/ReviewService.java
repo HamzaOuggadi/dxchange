@@ -15,25 +15,25 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewService {
     private UserReviewServiceImpl reviewService;
-    @GetMapping("/reviews")
+    @GetMapping("/reviews") /* Tested => OK */
     public List<UserReview> getAllReviews() {
         return reviewService.userReviews();
     }
-    @GetMapping("/reviews/{reviewId}")
+    @GetMapping("/reviews/{reviewId}") /* Tested => OK */
     public UserReview getReviewsById(@PathVariable Long reviewId) throws ReviewException {
         return reviewService.getUserReviewById(reviewId);
     }
-    @GetMapping("/reviews/byUserId/{userId}")
+    @GetMapping("/reviews/byUserId/{userId}") /* Tested => OK */
     public List<UserReview> getReviewsByUserId(@PathVariable Long userId) throws UserException {
         return reviewService.getUserReviewsByUserId(userId);
     }
-    @PostMapping("/reviews/addReview/{userReviewedId}/{userReviewOwnerId}")
+    @PostMapping("/reviews/addReview/{userReviewedId}/{userReviewOwnerId}") /* Tested => OK */
     public void addReview(@RequestBody UserReview userReview,
                           @PathVariable Long userReviewedId,
                           @PathVariable Long userReviewOwnerId) throws UserException {
         reviewService.addUserReview(userReview, userReviewedId, userReviewOwnerId);
     }
-    @DeleteMapping("/reviews/{reviewId}")
+    @DeleteMapping("/reviews/removeReviewById/{reviewId}") /* Tested => OK */
     public void removeReview(@PathVariable Long reviewId) throws ReviewException {
         reviewService.removeUserReviewById(reviewId);
     }

@@ -7,6 +7,7 @@ import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.repositories.UserRepository;
 import gg.astrub.astrub.repositories.UserReviewRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class UserReviewServiceImpl implements UserReviewService{
     private UserReviewRepository userReviewRepository;
     private UserRepository userRepository;
@@ -26,13 +28,30 @@ public class UserReviewServiceImpl implements UserReviewService{
 
     @Override
     public UserReview getUserReviewById(Long userReviewId) throws ReviewException {
-        return userReviewRepository.findById(userReviewId).orElseThrow(()-> new ReviewException("Review Not Found!"));
+        UserReview userReview = userReviewRepository.findById(userReviewId).orElseThrow(()-> new ReviewException("Review Not Found !"));
+        if (userReview.isRemoved()) {
+            throw new ReviewException("Review Already Removed !");
+        } else {
+            return userReview;
+        }
     }
 
     @Override
     public List<UserReview> getUserReviewsByUserId(Long userId) throws UserException {
         User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
-        return user.getUserOwnReviews();
+        List<UserReview> userReviewsForUser = user.getUserOwnReviews();
+//        log.info("------------LOG START-------------");
+//        System.out.println(userReviewsForUser.size());
+//        log.info("------------LOG END---------------");
+        for (int i=0;i<userReviewsForUser.size(); i++) {
+            if (userReviewsForUser.get(i).isRemoved()) {
+                userReviewsForUser.remove(i);
+            }
+        }
+//        log.info("------------LOG START After for Loop-------------");
+//        System.out.println(userReviewsForUser.size());
+//        log.info("------------LOG END---------------");
+        return userReviewsForUser;
     }
 
     @Override

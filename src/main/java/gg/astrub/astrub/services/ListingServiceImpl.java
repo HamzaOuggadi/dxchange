@@ -4,6 +4,7 @@ import gg.astrub.astrub.entities.Listing;
 import gg.astrub.astrub.entities.ListingAccount;
 import gg.astrub.astrub.entities.ListingCurrency;
 import gg.astrub.astrub.entities.User;
+import gg.astrub.astrub.enums.ListingType;
 import gg.astrub.astrub.exceptions.ListingException;
 import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.repositories.ListingAccountRepository;
@@ -54,7 +55,12 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public Listing getListingById(Long listingId) throws ListingException {
-        return listingRepository.findById(listingId).orElseThrow(()->new ListingException("Listing Not Found With The Given ID"));
+        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException("Listing Not Found!"));
+        if (listingById.isIsdDeleted()) {
+            throw new ListingException("Listing Already Deleted.");
+        } else {
+            return listingRepository.findById(listingId).orElseThrow(()->new ListingException("Listing Not Found With The Given ID"));
+        }
     }
 
     @Override
@@ -76,6 +82,7 @@ public class ListingServiceImpl implements ListingService{
                     .user(user)
                     .currencyAmount(listingCurrency.getCurrencyAmount())
                     .isdDeleted(false)
+                    .listingType(ListingType.CURRENCY_LISTING)
                     .build();
             listingRepository.save(newListingCurrency);
             return newListingCurrency;
@@ -101,6 +108,7 @@ public class ListingServiceImpl implements ListingService{
                 .listingCharacterName(listingAccount.getListingCharacterName())
                 .user(user)
                 .isdDeleted(false)
+                .listingType(ListingType.ACCOUNT_LISTING)
                 .characterClass(listingAccount.getCharacterClass())
                 .characterLevel(listingAccount.getCharacterLevel())
                 .characterProfession(listingAccount.getCharacterProfession())
@@ -126,19 +134,29 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException {
-        if (listingRepository.findById(listingCurrency.getListingId()).isEmpty()) {
-            throw new ListingException("This Listing Doesn't Exist !");
-        } else {
-            return listingRepository.save(listingCurrency);
-        }
+        ListingCurrency editedListingCurrency = listingCurrencyRepository.findById(listingCurrency.getListingId()).orElseThrow(()-> new ListingException("Listing Not Found!"));
+        editedListingCurrency.setListingTitle(listingCurrency.getListingTitle());
+        editedListingCurrency.setListingDescription(listingCurrency.getListingDescription());
+        editedListingCurrency.setListingPrice(listingCurrency.getListingPrice());
+        editedListingCurrency.setListingGameServer(listingCurrency.getListingGameServer());
+        editedListingCurrency.setListingCharacterName(listingCurrency.getListingCharacterName());
+        editedListingCurrency.setCurrencyAmount(listingCurrency.getCurrencyAmount());
+        return listingRepository.save(editedListingCurrency);
     }
     @Override
     public ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException {
-        if (listingRepository.findById(listingAccount.getListingId()).isEmpty()) {
-            throw new ListingException("This Listing Doesn't Exist!");
-        } else {
-            return listingRepository.save(listingAccount);
-        }
+        ListingAccount currentListingAccount = listingAccountRepository.findById(listingAccount.getListingId()).orElseThrow(()-> new ListingException("Listing Not Found!"));
+            currentListingAccount.setListingTitle(listingAccount.getListingTitle());
+            currentListingAccount.setListingDescription(listingAccount.getListingDescription());
+            currentListingAccount.setListingPrice(listingAccount.getListingPrice());
+            currentListingAccount.setListingGameServer(listingAccount.getListingGameServer());
+            currentListingAccount.setListingCharacterName(listingAccount.getListingCharacterName());
+            currentListingAccount.setCharacterClass(listingAccount.getCharacterClass());
+            currentListingAccount.setCharacterLevel(listingAccount.getCharacterLevel());
+            currentListingAccount.setCharacterProfession(listingAccount.getCharacterProfession());
+            currentListingAccount.setCharacterProfessionLevel(listingAccount.getCharacterProfessionLevel());
+            currentListingAccount.setCharacterCurrencyAmount(listingAccount.getCharacterCurrencyAmount());
+            return listingRepository.save(currentListingAccount);
     }
     @Override
     public void deleteListingById(Long listingId) throws ListingException {
