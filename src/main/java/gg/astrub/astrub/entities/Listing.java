@@ -19,16 +19,16 @@ import java.util.List;
 @SuperBuilder
 public abstract class Listing {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long listingId;
-    private String listingTitle;
-    private String listingDescription;
-    private double listingPrice;
-    private Date listingPublishDate;
-    private String listingGameServer;
-    private String listingCharacterName;
-    private boolean isdDeleted;
+    protected Long listingId;
+    protected String listingTitle;
+    protected String listingDescription;
+    protected double listingPrice;
+    protected Date listingPublishDate;
+    protected String listingGameServer;
+    protected String listingCharacterName;
+    protected boolean isdDeleted;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
+    protected User user;
     @OneToMany(mappedBy = "listing")
-    private List<Message> messages;
+    protected List<Message> messages;
 }
