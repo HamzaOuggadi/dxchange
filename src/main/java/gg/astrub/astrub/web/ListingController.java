@@ -7,6 +7,7 @@ import gg.astrub.astrub.exceptions.ListingException;
 import gg.astrub.astrub.exceptions.UserException;
 import gg.astrub.astrub.services.ListingServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,8 @@ public class ListingController {
         return listingService.listCurrencyListing();
     }
     @GetMapping("/listings/{listingId}") /* Tested => OK */
-    public Listing getListingById(@PathVariable Long listingId) throws ListingException {
-        return listingService.getListingById(listingId);
+    public ResponseEntity<Listing> getListingById(@PathVariable Long listingId) throws ListingException {
+        return ResponseEntity.ok(listingService.getListingById(listingId));
     }
     @GetMapping("/listings/listingsByUserId/{userId}") /* Tested => OK */
     public List<Listing> getListingByUserId(@PathVariable Long userId) throws UserException {

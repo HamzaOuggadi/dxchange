@@ -12,11 +12,14 @@ import gg.astrub.astrub.repositories.ListingCurrencyRepository;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -25,6 +28,7 @@ public class ListingServiceImpl implements ListingService{
     private ListingAccountRepository listingAccountRepository;
     private ListingCurrencyRepository listingCurrencyRepository;
     private UserRepository userRepository;
+    private MessageSource messageSource;
 
     @Override
     public List<Listing> listAllListing() throws ListingException {
@@ -55,7 +59,7 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public Listing getListingById(Long listingId) throws ListingException {
-        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException("Listing Not Found!"));
+        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException(messageSource.getMessage("listing.not.found.by", new Object[]{listingId}, Locale.getDefault())));
         if (listingById.isIsdDeleted()) {
             throw new ListingException("Listing Already Deleted.");
         } else {
