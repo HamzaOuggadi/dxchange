@@ -14,9 +14,9 @@ public class ControllerAdviser extends ResponseEntityExceptionHandler {
         GenericResponse result = new GenericResponse();
         log.error(e.getMessage(), e);
         e.printStackTrace();
-        result.setStatusCode("");
-        result.setDescription("");
-        result.setFrontDescription("");
+        result.setStatusCode(null);
+        result.setDescription(e.getMessage());
+        result.setFrontDescription(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
     }
 
@@ -25,11 +25,11 @@ public class ControllerAdviser extends ResponseEntityExceptionHandler {
         GenericResponse result = new GenericResponse();
         log.error(e.getMessage(), e);
         e.printStackTrace();
-        result.setFrontDescription("Listing Not Found !");
+        result.setFrontDescription(e.getMessageFront());
         result.setDescription(e.getMessage());
-        result.setStatusCode("ERROR L01");
+        result.setStatusCode(e.getCode());
         result.setError(true);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
+        return ResponseEntity.status(e.getHttpStatus()).body(result);
     }
 
 }

@@ -4,6 +4,7 @@ import gg.astrub.astrub.entities.Listing;
 import gg.astrub.astrub.entities.ListingAccount;
 import gg.astrub.astrub.entities.ListingCurrency;
 import gg.astrub.astrub.entities.User;
+import gg.astrub.astrub.enums.ApiStatusCode;
 import gg.astrub.astrub.enums.ListingType;
 import gg.astrub.astrub.exceptions.ListingException;
 import gg.astrub.astrub.exceptions.UserException;
@@ -12,7 +13,9 @@ import gg.astrub.astrub.repositories.ListingCurrencyRepository;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +62,7 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public Listing getListingById(Long listingId) throws ListingException {
-        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException(messageSource.getMessage("listing.not.found.by", new Object[]{listingId}, Locale.getDefault())));
+        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException(messageSource.getMessage("listing.not.found.by.id", new  Object[]{listingId}, Locale.getDefault()), messageSource.getMessage("listing.not.found", new Object[]{}, Locale.getDefault()), ApiStatusCode.API_220, HttpStatus.NOT_FOUND));
         if (listingById.isIsdDeleted()) {
             throw new ListingException("Listing Already Deleted.");
         } else {
