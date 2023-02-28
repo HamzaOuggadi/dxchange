@@ -21,7 +21,19 @@ public class ControllerAdviser extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ListingException.class)
-    public  ResponseEntity<GenericResponse> HandleListingException(ListingException e) {
+    public ResponseEntity<GenericResponse> HandleListingException(ListingException e) {
+        GenericResponse result = new GenericResponse();
+        log.error(e.getMessage(), e);
+        e.printStackTrace();
+        result.setFrontDescription(e.getMessageFront());
+        result.setDescription(e.getMessage());
+        result.setStatusCode(e.getCode());
+        result.setError(true);
+        return ResponseEntity.status(e.getHttpStatus()).body(result);
+    }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<GenericResponse> HandleUserException(UserException e) {
         GenericResponse result = new GenericResponse();
         log.error(e.getMessage(), e);
         e.printStackTrace();

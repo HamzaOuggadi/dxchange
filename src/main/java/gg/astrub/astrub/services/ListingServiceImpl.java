@@ -13,11 +13,11 @@ import gg.astrub.astrub.repositories.ListingCurrencyRepository;
 import gg.astrub.astrub.repositories.ListingRepository;
 import gg.astrub.astrub.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -38,7 +38,11 @@ public class ListingServiceImpl implements ListingService{
         try {
             return listingRepository.findAll();
         } catch (Exception e) {
-            throw new ListingException("Listings Not Found!");
+            throw new ListingException(messageSource.getMessage("listing.not.found",
+                    new Object[]{},
+                    Locale.getDefault()),
+                    ApiStatusCode.API_220,
+                    HttpStatus.NOT_FOUND);
         }
     }
 
@@ -47,7 +51,11 @@ public class ListingServiceImpl implements ListingService{
         try {
             return listingAccountRepository.findAll();
         } catch (Exception e){
-            throw new ListingException("Listing Not Found!");
+            throw new ListingException(messageSource.getMessage("listing.not.found",
+                    new Object[]{},
+                    Locale.getDefault()),
+                    ApiStatusCode.API_220,
+                    HttpStatus.NOT_FOUND);
         }
     }
 
@@ -56,29 +64,58 @@ public class ListingServiceImpl implements ListingService{
         try {
             return listingCurrencyRepository.findAll();
         } catch (Exception e) {
-            throw new ListingException("Listing Not Found!");
+            throw new ListingException(messageSource.getMessage("listing.not.found",
+                    new Object[]{},
+                    Locale.getDefault()),
+                    ApiStatusCode.API_220,
+                    HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public Listing getListingById(Long listingId) throws ListingException {
-        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException(messageSource.getMessage("listing.not.found.by.id", new  Object[]{listingId}, Locale.getDefault()), messageSource.getMessage("listing.not.found", new Object[]{}, Locale.getDefault()), ApiStatusCode.API_220, HttpStatus.NOT_FOUND));
-        if (listingById.isIsdDeleted()) {
-            throw new ListingException("Listing Already Deleted.");
+        Listing listingById = listingRepository.findById(listingId).orElseThrow(() -> new ListingException(messageSource.getMessage("listing.not.found.by.id", new  Object[]{listingId}, Locale.getDefault()),
+                messageSource.getMessage("listing.not.found", new Object[]{}, Locale.getDefault()),
+                ApiStatusCode.API_220, HttpStatus.NOT_FOUND));
+        if (listingById.isDeleted()) {
+            throw new ListingException(messageSource.getMessage("listing.deleted",
+                    new Object[]{listingId},
+                    Locale.getDefault()),
+                    messageSource.getMessage("listing.deleted.front", new Object[]{listingId}, Locale.getDefault()),
+                    ApiStatusCode.API_230,
+                    HttpStatus.NOT_FOUND);
         } else {
-            return listingRepository.findById(listingId).orElseThrow(()->new ListingException("Listing Not Found With The Given ID"));
+            return listingById;
         }
     }
 
     @Override
     public List<Listing> getListingByUserId(Long userId) throws UserException {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
-        return user.getListings();
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException(messageSource.getMessage("user.not.found",
+                        new Object[]{userId},
+                        Locale.getDefault()),
+                messageSource.getMessage("user.not.found.front", new Object[]{}, Locale.getDefault()),
+                ApiStatusCode.API_120,
+                HttpStatus.NOT_FOUND));
+        List<Listing> userListings = user.getListings();
+        if (!CollectionUtils.isEmpty(userListings)) {
+            return userListings;
+        } else {
+            throw new ListingException(messageSource.getMessage("listing.not.found",
+                    new Object[]{},
+                    Locale.getDefault()),
+                    ApiStatusCode.API_220,
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
     public ListingCurrency addListingCurrency(ListingCurrency listingCurrency, Long userId) throws ListingException, UserException {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException(messageSource.getMessage("user.not.found",
+                new Object[]{},
+                Locale.getDefault()),
+                ApiStatusCode.API_120,
+                HttpStatus.NOT_FOUND));
             ListingCurrency newListingCurrency = ListingCurrency.builder()
                     .listingTitle(listingCurrency.getListingTitle())
                     .listingDescription(listingCurrency.getListingDescription())
@@ -88,7 +125,7 @@ public class ListingServiceImpl implements ListingService{
                     .listingCharacterName(listingCurrency.getListingCharacterName())
                     .user(user)
                     .currencyAmount(listingCurrency.getCurrencyAmount())
-                    .isdDeleted(false)
+                    .isDeleted(false)
                     .listingType(ListingType.CURRENCY_LISTING)
                     .build();
             listingRepository.save(newListingCurrency);
@@ -105,7 +142,11 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public ListingAccount addListingAccount(ListingAccount listingAccount, Long userId) throws ListingException, UserException {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserException("User Not Found!"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException(messageSource.getMessage("user.not.found",
+                new Object[]{},
+                Locale.getDefault()),
+                ApiStatusCode.API_120,
+                HttpStatus.NOT_FOUND));
         ListingAccount newListingAccount = ListingAccount.builder()
                 .listingTitle(listingAccount.getListingTitle())
                 .listingDescription(listingAccount.getListingDescription())
@@ -114,7 +155,7 @@ public class ListingServiceImpl implements ListingService{
                 .listingGameServer(listingAccount.getListingGameServer())
                 .listingCharacterName(listingAccount.getListingCharacterName())
                 .user(user)
-                .isdDeleted(false)
+                .isDeleted(false)
                 .listingType(ListingType.ACCOUNT_LISTING)
                 .characterClass(listingAccount.getCharacterClass())
                 .characterLevel(listingAccount.getCharacterLevel())
@@ -141,7 +182,11 @@ public class ListingServiceImpl implements ListingService{
 
     @Override
     public ListingCurrency editListingCurrency(ListingCurrency listingCurrency) throws ListingException {
-        ListingCurrency editedListingCurrency = listingCurrencyRepository.findById(listingCurrency.getListingId()).orElseThrow(()-> new ListingException("Listing Not Found!"));
+        ListingCurrency editedListingCurrency = listingCurrencyRepository.findById(listingCurrency.getListingId()).orElseThrow(()-> new ListingException(messageSource.getMessage("listing.not.found",
+                new  Object[]{},
+                Locale.getDefault()),
+                ApiStatusCode.API_220,
+                HttpStatus.NOT_FOUND));
         editedListingCurrency.setListingTitle(listingCurrency.getListingTitle());
         editedListingCurrency.setListingDescription(listingCurrency.getListingDescription());
         editedListingCurrency.setListingPrice(listingCurrency.getListingPrice());
@@ -152,7 +197,11 @@ public class ListingServiceImpl implements ListingService{
     }
     @Override
     public ListingAccount editListingAccount(ListingAccount listingAccount) throws ListingException {
-        ListingAccount currentListingAccount = listingAccountRepository.findById(listingAccount.getListingId()).orElseThrow(()-> new ListingException("Listing Not Found!"));
+        ListingAccount currentListingAccount = listingAccountRepository.findById(listingAccount.getListingId()).orElseThrow(()-> new ListingException(messageSource.getMessage("listing.not.found",
+                new  Object[]{},
+                Locale.getDefault()),
+                ApiStatusCode.API_220,
+                HttpStatus.NOT_FOUND));
             currentListingAccount.setListingTitle(listingAccount.getListingTitle());
             currentListingAccount.setListingDescription(listingAccount.getListingDescription());
             currentListingAccount.setListingPrice(listingAccount.getListingPrice());
@@ -167,8 +216,12 @@ public class ListingServiceImpl implements ListingService{
     }
     @Override
     public void deleteListingById(Long listingId) throws ListingException {
-        Listing listing = listingRepository.findById(listingId).orElseThrow(()-> new ListingException("Listing Not Found!"));
-        listing.setIsdDeleted(true);
+        Listing listing = listingRepository.findById(listingId).orElseThrow(()-> new ListingException(messageSource.getMessage("listing.not.found",
+                new  Object[]{},
+                Locale.getDefault()),
+                ApiStatusCode.API_220,
+                HttpStatus.NOT_FOUND));
+        listing.setDeleted(true);
         listingRepository.save(listing);
     }
 }

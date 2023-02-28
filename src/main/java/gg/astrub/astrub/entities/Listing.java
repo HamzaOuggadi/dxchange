@@ -27,7 +27,7 @@ public abstract class Listing {
     protected Date listingPublishDate;
     protected String listingGameServer;
     protected String listingCharacterName;
-    protected boolean isdDeleted;
+    protected boolean isDeleted;
     protected ListingType listingType;
     @ManyToOne @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected User user;
